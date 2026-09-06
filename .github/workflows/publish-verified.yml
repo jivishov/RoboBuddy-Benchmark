@@ -4,8 +4,17 @@ on:
     branches: [gh-pages]
     paths: ['.github/workflows/publish-verified.yml']
   workflow_dispatch:
+    inputs:
+      build_run_id:
+        description: Run whose build job passed unit, browser and runtime checks
+        required: true
+        type: string
+      source_sha:
+        description: Exact main-branch source commit for that build
+        required: true
+        type: string
 permissions:
-  contents: read
+  contents: write
   actions: read
   pages: write
   id-token: write
@@ -14,40 +23,75 @@ concurrency:
   cancel-in-progress: false
 jobs:
   publish:
-    if: github.repository == 'jivishov/RoboBuddy-Benchmark'
+    if: github.repository == 'jivishov/RoboBuddy-Benchmark' && github.ref == 'refs/heads/gh-pages'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      BUILD_RUN: ${{ inputs.build_run_id || '34020967488' }}
+      SOURCE_SHA: ${{ inputs.source_sha || '8c10dbb734528c8b936126d571174400c99427a8' }}
     steps:
       - name: Verify source build status and identity
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          test "$GITHUB_REPOSITORY" = 'jivishov/RoboBuddy-Benchmark'
-          test "$GITHUB_REF" = 'refs/heads/gh-pages'
-          test "$(gh api repos/$GITHUB_REPOSITORY/actions/runs/34020967488 --jq '.head_sha')" = '8c10dbb734528c8b936126d571174400c99427a8'
-          test "$(gh api repos/$GITHUB_REPOSITORY/actions/runs/34020967488/jobs --jq '[.jobs[] | select(.name == "build" and .conclusion == "success")] | length')" = '1'
+          [[ "$BUILD_RUN" =~ ^[0-9]+$ ]]
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$BUILD_RUN" > "$RUNNER_TEMP/source-run.json"
+          jq -e --arg sha "$SOURCE_SHA" --arg repo "$GITHUB_REPOSITORY" '.head_sha == $sha and .head_branch == "main" and .head_repository.full_name == $repo and (.event == "push" or .event == "workflow_dispatch")' "$RUNNER_TEMP/source-run.json"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$BUILD_RUN/jobs" --jq '[.jobs[] | select(.name == "build" and .conclusion == "success")] | length')" = '1'
       - name: Download tested static site
         uses: actions/download-artifact@v4
         with:
           name: benchmark-built-site
-          run-id: 34020967488
+          run-id: ${{ env.BUILD_RUN }}
           github-token: ${{ github.token }}
-          path: site
-      - name: Validate site entry
+          path: ${{ runner.temp }}/benchmark-site
+      - name: Validate entry and record deployment provenance
         run: |
-          test -s site/index.html
-          touch site/.nojekyll
+          test -s "$RUNNER_TEMP/benchmark-site/index.html"
+          test -s "$RUNNER_TEMP/benchmark-site/data/smoke-report.json"
+          touch "$RUNNER_TEMP/benchmark-site/.nojekyll"
+          jq -n --arg sha "$SOURCE_SHA" --arg run "$BUILD_RUN" --arg release "$GITHUB_RUN_ID" '{sourceCommit:$sha,sourceBuildRun:$run,releaseRun:$release}' > "$RUNNER_TEMP/benchmark-site/data/deployment.json"
+      - name: Check out the configured Pages branch only
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: publishing
+      - name: Synchronize the configured Pages source with the tested site
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'jivishov/RoboBuddy-Benchmark'
+          test "$GITHUB_REF" = 'refs/heads/gh-pages'
+          rsync -a --delete --exclude=.git --exclude=.github "$RUNNER_TEMP/benchmark-site/" publishing/
+          git -C publishing config user.name 'github-actions[bot]'
+          git -C publishing config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git -C publishing add --all
+          if ! git -C publishing diff --cached --quiet; then
+            git -C publishing commit -m "Publish tested benchmark build $SOURCE_SHA"
+            git -C publishing push origin HEAD:gh-pages
+          fi
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: ${{ runner.temp }}/benchmark-site
       - name: Publish tested artifact
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Check deployed HTML, JavaScript and build identity
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --retry 6 --retry-delay 3 "${PAGE_URL}data/deployment.json?release=$GITHUB_RUN_ID" > "$RUNNER_TEMP/live.json"
+          jq -e --arg sha "$SOURCE_SHA" '.sourceCommit == $sha' "$RUNNER_TEMP/live.json"
+          curl --fail --silent --show-error --retry 3 "${PAGE_URL}index.html" | grep -q 'RoboBuddy Benchmark'
+          curl --fail --silent --show-error --retry 3 "${PAGE_URL}src/app.js" -o "$RUNNER_TEMP/live-app.js"
+          test -s "$RUNNER_TEMP/live-app.js"
+          printf 'Live site: %s\nSource commit: %s\nBuild: %s\n' "$PAGE_URL" "$SOURCE_SHA" "$BUILD_RUN" >> "$GITHUB_STEP_SUMMARY"
