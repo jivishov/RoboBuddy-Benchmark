@@ -5,13 +5,12 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
-  pages: write
-  id-token: write
 concurrency:
   group: benchmark-pages
   cancel-in-progress: true
 jobs:
   build:
+    if: github.repository == 'jivishov/RoboBuddy-Benchmark'
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
@@ -59,20 +58,20 @@ jobs:
           name: benchmark-built-site
           path: dist/
           retention-days: 7
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
     steps:
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: Publish
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Release the verified artifact from the configured Pages branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'jivishov/RoboBuddy-Benchmark'
+          test "$GITHUB_REF" = 'refs/heads/main'
+          gh workflow run publish-verified.yml --repo "$GITHUB_REPOSITORY" --ref gh-pages -f build_run_id="$GITHUB_RUN_ID" -f source_sha="$GITHUB_SHA"
+          printf 'Verified build %s has been submitted to the gh-pages release workflow. The separate Publish verified benchmark build run records deployment and HTTP verification.\n' "$GITHUB_RUN_ID" >> "$GITHUB_STEP_SUMMARY"
