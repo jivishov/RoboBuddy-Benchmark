@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "benchmarkCommit": "d49256d5dee00987d8cf884b604f59f4e1e4129f",
+  "benchmarkCommit": "4a556fa9f7db5427a4f287510361831904ab2f67",
   "timingAdapter": "LeKiwi hold-inclusive-command-tick-v1; other source plants unchanged",
   "ide": {
     "repository": "jivishov/RoboBuddy_IDE",
@@ -21,5 +21,8 @@
     "Model/provider labels are user-declared.",
     "Public references are not a secret holdout.",
     "GitHub Pages stores no model API keys or centralized leaderboard."
-  ]
+  ],
+  "referenceAdapters": {
+    "microduck": "Observed-displacement feedback, target 1.05 m, at most 100 checks; fixed workcell motion rubric unchanged."
+  }
 }

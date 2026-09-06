@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "benchmarkCommit": "d49256d5dee00987d8cf884b604f59f4e1e4129f",
+  "benchmarkCommit": "4a556fa9f7db5427a4f287510361831904ab2f67",
   "runtimeRevision": "e87940e17271daff0390f6d38cbd4a27ddf18b48",
   "labRevision": "e66472f898a6a5fb12d85f3f1d1f64ad10e48259",
   "profiles": {
@@ -1364,7 +1364,7 @@
         "qualified": true,
         "referenceScore": 100,
         "referenceError": null,
-        "checkedAt": "2026-09-06T08:47:58.769Z"
+        "checkedAt": "2026-09-06T09:03:17.797Z"
       }
     },
     {
@@ -2290,7 +2290,7 @@
         "qualified": true,
         "referenceScore": 100,
         "referenceError": null,
-        "checkedAt": "2026-09-06T08:47:58.769Z"
+        "checkedAt": "2026-09-06T09:03:17.797Z"
       }
     },
     {
@@ -3216,7 +3216,7 @@
         "qualified": true,
         "referenceScore": 100,
         "referenceError": null,
-        "checkedAt": "2026-09-06T08:47:58.769Z"
+        "checkedAt": "2026-09-06T09:03:17.797Z"
       }
     },
     {
@@ -4266,7 +4266,7 @@
         "qualified": true,
         "referenceScore": 100,
         "referenceError": null,
-        "checkedAt": "2026-09-06T08:47:58.769Z"
+        "checkedAt": "2026-09-06T09:03:17.797Z"
       }
     },
     {
@@ -4736,7 +4736,7 @@
         "qualified": true,
         "referenceScore": 100,
         "referenceError": null,
-        "checkedAt": "2026-09-06T08:47:58.769Z"
+        "checkedAt": "2026-09-06T09:03:17.797Z"
       }
     },
     {
@@ -4766,7 +4766,7 @@
         "qualified": true,
         "referenceScore": 100,
         "referenceError": null,
-        "checkedAt": "2026-09-06T08:47:58.769Z"
+        "checkedAt": "2026-09-06T09:03:17.797Z"
       }
     },
     {
@@ -4793,10 +4793,10 @@
       },
       "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification.",
       "verification": {
-        "qualified": false,
-        "referenceScore": 0,
+        "qualified": true,
+        "referenceScore": 100,
         "referenceError": null,
-        "checkedAt": "2026-09-06T08:47:58.769Z"
+        "checkedAt": "2026-09-06T09:03:17.797Z"
       }
     }
   ],
