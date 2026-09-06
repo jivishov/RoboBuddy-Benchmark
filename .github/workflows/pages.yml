@@ -1,0 +1,75 @@
+name: Verify and deploy benchmark
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: benchmark-pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      ready: ${{ steps.ready.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read pinned RoboBuddy runtime
+        uses: actions/checkout@v4
+        with:
+          repository: jivishov/RoboBuddy_IDE
+          ref: e87940e17271daff0390f6d38cbd4a27ddf18b48
+          path: .upstream/ide
+          persist-credentials: false
+      - name: Read pinned Lab Studio contracts
+        uses: actions/checkout@v4
+        with:
+          repository: jivishov/Lab-Studio_WebMCP
+          ref: e66472f898a6a5fb12d85f3f1d1f64ad10e48259
+          path: .upstream/lab
+          persist-credentials: false
+      - name: Package read-only source for integration verification
+        run: |
+          mkdir -p verification-source
+          tar --exclude=.git -czf verification-source/upstream-source.tar.gz -C .upstream ide lab
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pinned-integration-source
+          path: verification-source/
+          retention-days: 3
+      - name: Check application is ready
+        id: ready
+        run: |
+          if [ -f scripts/build.mjs ]; then echo 'ready=true' >> "$GITHUB_OUTPUT"; fi
+      - name: Test and build
+        if: steps.ready.outputs.ready == 'true'
+        run: |
+          npm test
+          npm run build
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.ready.outputs.ready == 'true'
+        with:
+          path: dist
+  deploy:
+    if: needs.build.outputs.ready == 'true'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Publish
+        id: deployment
+        uses: actions/deploy-pages@v4
