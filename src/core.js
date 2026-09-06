@@ -2,7 +2,7 @@ export const VERSION = '1.0.0';
 export const IDE_REV = 'e87940e17271daff0390f6d38cbd4a27ddf18b48';
 export const LAB_REV = 'e66472f898a6a5fb12d85f3f1d1f64ad10e48259';
 export const FILES = ['main.py', 'trajectories.py', 'robot_config.py', 'workcell.py'];
-export const LIMITS = Object.freeze({ fileBytes: 48000, bundleBytes: 160000, assets: 12, workflowNodes: 100, attempts: 5, events: 3000, seconds: 120 });
+export const LIMITS = Object.freeze({ fileBytes: 128000, bundleBytes: 160000, assets: 12, workflowNodes: 100, attempts: 5, events: 3000, seconds: 120 });
 export class BenchError extends Error { constructor(code, message) { super(message); this.code = code; } }
 export function requireThat(condition, code, message) { if (!condition) throw new BenchError(code, message); }
 export function isObject(v) { return v !== null && typeof v === 'object' && !Array.isArray(v); }

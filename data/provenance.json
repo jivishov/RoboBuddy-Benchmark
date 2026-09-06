@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "benchmarkCommit": "b0ade17ae5520ef15fc627aa12f6bfe3e3d232f6",
+  "benchmarkCommit": "d49256d5dee00987d8cf884b604f59f4e1e4129f",
   "timingAdapter": "LeKiwi hold-inclusive-command-tick-v1; other source plants unchanged",
   "ide": {
     "repository": "jivishov/RoboBuddy_IDE",
