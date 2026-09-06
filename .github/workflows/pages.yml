@@ -13,8 +13,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      ready: ${{ steps.ready.outputs.ready }}
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
         with:
@@ -36,30 +35,34 @@ jobs:
           ref: e66472f898a6a5fb12d85f3f1d1f64ad10e48259
           path: .upstream/lab
           persist-credentials: false
-      - name: Package read-only source for integration verification
-        run: |
-          mkdir -p verification-source
-          tar --exclude=.git -czf verification-source/upstream-source.tar.gz -C .upstream ide lab
-      - uses: actions/upload-artifact@v4
-        with:
-          name: pinned-integration-source
-          path: verification-source/
-          retention-days: 3
-      - name: Check application is ready
-        id: ready
-        run: |
-          if [ -f scripts/build.mjs ]; then echo 'ready=true' >> "$GITHUB_OUTPUT"; fi
-      - name: Test and build
-        if: steps.ready.outputs.ready == 'true'
+      - name: Unit tests and static build
         run: |
           npm test
           npm run build
+      - name: Install browser-test dependencies
+        run: |
+          npm install --ignore-scripts
+          npx playwright install --with-deps chromium
+      - name: Browser and actual runtime smoke checks
+        run: npm run test:browser
+      - name: Preserve test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-verification
+          path: test-results/
+          retention-days: 14
+      - name: Preserve built site for independent inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-built-site
+          path: dist/
+          retention-days: 7
       - uses: actions/upload-pages-artifact@v3
-        if: steps.ready.outputs.ready == 'true'
         with:
           path: dist
   deploy:
-    if: needs.build.outputs.ready == 'true'
     needs: build
     runs-on: ubuntu-latest
     environment:
