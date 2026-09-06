@@ -2,18 +2,17 @@ name: Verify and deploy benchmark
 on:
   push:
     branches: [main]
+    paths-ignore: ['.github/workflows/pages-diagnostics.yml']
   workflow_dispatch:
 permissions:
   contents: read
-  pages: write
-  id-token: write
 concurrency:
-  group: benchmark-pages
+  group: benchmark-build
   cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -59,20 +58,19 @@ jobs:
           name: benchmark-built-site
           path: dist/
           retention-days: 7
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-  deploy:
+  release:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      actions: write
     steps:
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: Publish
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish from the configured and authorized Pages branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'jivishov/RoboBuddy-Benchmark'
+          jq -n --arg run "$GITHUB_RUN_ID" --arg sha "$GITHUB_SHA" '{ref:"gh-pages",inputs:{build_run_id:$run,source_sha:$sha}}' |
+            gh api --method POST "repos/$GITHUB_REPOSITORY/actions/workflows/publish-verified.yml/dispatches" --input -
+          printf 'Requested publication of verified build %s (%s) from gh-pages.\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
