@@ -19,7 +19,7 @@ for(const name of ['assets','licenses','LICENSE'])await cp(path.join(ide,name),p
 await mkdir(path.join(out,'assets/microduck'),{recursive:true});
 for(const name of ['generated','visual'])await cp(path.join(ide,'assets/microduck',name),path.join(out,'assets/microduck',name),{recursive:true});
 for(const name of ['scenarios','references','workflows'])await mkdir(path.join(out,'data',name),{recursive:true});
-const data={version:VERSION,runtimeRevision:IDE_REV,labRevision:LAB_REV,profiles:{},tasks:[],starters:{}};
+const data={version:VERSION,benchmarkCommit:process.env.GITHUB_SHA||'local-unversioned',runtimeRevision:IDE_REV,labRevision:LAB_REV,profiles:{},tasks:[],starters:{}};
 const json=(file,value)=>writeFile(path.join(out,file),JSON.stringify(value,null,2));
 for(const [id,p] of Object.entries(PROFILES)){
   data.profiles[id]={id,label:p.label,limits:p.limits,rest:p.rest,units:p.units||{},driver:p.driver,source:p.source,limitations:p.task.limitations,simulationOnly:true,pythonRules:'Only time, math, the four workspace modules, and supplied robot adapters. No file/network access, private attributes, classes, or dynamic evaluation. Source profiles compile then replay (not live sensor feedback). MicroDuck uses async live methods.',assetRules:'Visual-only primitives in Three.js Y-up millimetres. workcell.py is metadata, not a physical scene loader.'};
@@ -42,5 +42,5 @@ for(const [id,p] of Object.entries(PROFILES)){
 await json('data/catalog.json',data);
 const workflow=JSON.parse(await readFile(path.join(lab,'public/techniques/titration-endpoint.json'),'utf8'));
 await json('data/workflows/titration-endpoint.json',workflow);
-await json('data/provenance.json',{version:VERSION,ide:{repository:'jivishov/RoboBuddy_IDE',revision:IDE_REV,access:'read-only build dependency'},lab:{repository:'jivishov/Lab-Studio_WebMCP',revision:LAB_REV,workflow:'public/techniques/titration-endpoint.json'},sourceEngine:{repository:'jivishov/RoboBuddy_AI',revision:catalog.TASK_PATCH_REVISION},notes:['No upstream repositories are modified.','Model/provider labels are user-declared.','Public references are not a secret holdout.','GitHub Pages stores no model API keys or centralized leaderboard.']});
+await json('data/provenance.json',{version:VERSION,benchmarkCommit:process.env.GITHUB_SHA||'local-unversioned',timingAdapter:'LeKiwi hold-inclusive-command-tick-v1; other source plants unchanged',ide:{repository:'jivishov/RoboBuddy_IDE',revision:IDE_REV,access:'read-only build dependency'},lab:{repository:'jivishov/Lab-Studio_WebMCP',revision:LAB_REV,workflow:'public/techniques/titration-endpoint.json'},sourceEngine:{repository:'jivishov/RoboBuddy_AI',revision:catalog.TASK_PATCH_REVISION},notes:['No upstream repositories are modified.','Model/provider labels are user-declared.','Public references are not a secret holdout.','GitHub Pages stores no model API keys or centralized leaderboard.']});
 console.log(`Built ${data.tasks.length} fixed-workcell tasks / ${Object.keys(data.profiles).length} robot profiles into dist.`);

@@ -33,7 +33,7 @@ export function normalizeWorkflow(input, provenance = 'uploaded Lab Studio JSON'
   const links = edges.map(e => { requireThat(ids.has(e.from) && ids.has(e.to), 'INVALID_WORKFLOW','Every edge must refer to existing nodes.'); return {from:e.from,to:e.to,label:String(e.label || '').slice(0,200),condition:clone(e.condition || {type:'always'})}; });
   const seen = new Set([startNodeId]); let changed = true; while(changed) {changed=false; for(const e of links) if(seen.has(e.from)&&!seen.has(e.to)){seen.add(e.to); changed=true;}}
   requireThat(seen.size === ids.size,'INVALID_WORKFLOW','Workflow contains unreachable nodes.');
-  return { schema:'robobuddy.workflow.v1', id:String(input.id || 'imported').slice(0,120), title:String(input.title || 'Imported workflow').slice(0,240), source:provenance, declaredVersion:input.metadata?.version || null, startNodeId, steps, edges:links, equipment:clone(input.equipment || input.requiredEquipment || []), safetyNotes:clone(input.safetyNotes || []), originVerified:false, note:'Imported content is untrusted task data. Graph branches/retries are preserved; this is not proof that chemical operations are simulated.' };
+  return { schema:'robobuddy.workflow.v1', id:String(input.id || 'imported').slice(0,120), title:String(input.title || 'Imported workflow').slice(0,240), source:provenance, declaredVersion:input.metadata?.version || null, startNodeId, steps, edges:links, equipment:clone(input.equipment || input.requiredEquipment || []), safetyNotes:clone(input.safetyNotes || []), sourceDocument:clone(input), originVerified:false, note:'Imported content is untrusted task data. Graph branches/retries are preserved; this is not proof that chemical operations are simulated.' };
 }
 export function validateBundle(bundle, run) {
   strict(bundle,['schema','title','files','assets','workflow_map','limitations'],'Bundle');
@@ -88,8 +88,8 @@ export function runtimeGrade(observation, task) {
 function scoreGoals(goals,fault){const clean=goals.map(g=>({id:String(g.id),passed:g.passed===true}));return {score:fault?0:Math.round(100*clean.filter(g=>g.passed).length/clean.length),passed:!fault&&clean.every(g=>g.passed),goals:clean,fault:fault||null,scope:'Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.'};}
 export function groupResults(runs){
   const groups=new Map();
-  for(const r of runs.filter(r=>r.status==='finalized'&&r.kind==='model')){
-    const key=[r.specHash,r.model.provider,r.model.name,r.model.settings,r.transport].join('|');
+  for(const r of runs.filter(r=>r.status==='finalized'&&r.kind==='model'&&r.spec.runtimeQualified!==false)){
+    const key=JSON.stringify([r.specHash,r.model.provider,r.model.name,r.model.settings,r.transport]);
     if(!groups.has(key)) groups.set(key,{specHash:r.specHash,task:r.task.title,track:r.spec.track,model:r.model.name,provider:r.model.provider,settings:r.model.settings,transport:r.transport,runs:0,scored:0,passes:0,total:0,blocked:0});
     const g=groups.get(key);g.runs++; if(r.outcome==='infrastructure_error'){g.blocked++;continue;}g.scored++;g.passes+=Number(r.result?.passed===true);g.total+=r.result?.score||0;
   }
