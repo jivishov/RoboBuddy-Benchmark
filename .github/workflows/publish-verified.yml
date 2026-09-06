@@ -1,0 +1,53 @@
+name: Publish verified benchmark build
+on:
+  push:
+    branches: [gh-pages]
+    paths: ['.github/workflows/publish-verified.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+  pages: write
+  id-token: write
+concurrency:
+  group: benchmark-pages-release
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'jivishov/RoboBuddy-Benchmark'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Verify source build status and identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'jivishov/RoboBuddy-Benchmark'
+          test "$GITHUB_REF" = 'refs/heads/gh-pages'
+          test "$(gh api repos/$GITHUB_REPOSITORY/actions/runs/34020967488 --jq '.head_sha')" = '8c10dbb734528c8b936126d571174400c99427a8'
+          test "$(gh api repos/$GITHUB_REPOSITORY/actions/runs/34020967488/jobs --jq '[.jobs[] | select(.name == "build" and .conclusion == "success")] | length')" = '1'
+      - name: Download tested static site
+        uses: actions/download-artifact@v4
+        with:
+          name: benchmark-built-site
+          run-id: 34020967488
+          github-token: ${{ github.token }}
+          path: site
+      - name: Validate site entry
+        run: |
+          test -s site/index.html
+          touch site/.nojekyll
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Publish tested artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
