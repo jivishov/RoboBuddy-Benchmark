@@ -1,0 +1,30 @@
+name: Inspect benchmark Pages configuration
+on:
+  push:
+    paths: ['.github/workflows/pages-diagnostics.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: read
+  actions: read
+  checks: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect repository-scoped Pages configuration
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          mkdir -p pages-diagnostics
+          gh api "repos/$REPOSITORY/pages" > pages-diagnostics/pages.json 2> pages-diagnostics/pages-error.txt || true
+          gh api "repos/$REPOSITORY/environments/github-pages" > pages-diagnostics/environment.json 2> pages-diagnostics/environment-error.txt || true
+          gh api "repos/$REPOSITORY/environments/github-pages/deployment-branch-policies" > pages-diagnostics/branches.json 2> pages-diagnostics/branches-error.txt || true
+          gh api "repos/$REPOSITORY/check-runs/101454589866/annotations" > pages-diagnostics/deployment-errors.json 2> pages-diagnostics/annotations-error.txt || true
+          cat pages-diagnostics/deployment-errors.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pages-configuration-diagnostics
+          path: pages-diagnostics/
+          retention-days: 3
