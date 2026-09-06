@@ -1,5 +1,7 @@
 import {BenchError,requireThat,LIMITS} from './core.js';
 const tick = () => new Promise(resolve=>requestAnimationFrame(resolve));
+// Avoid an extra plant tick when floating subtraction falls just above a tick boundary.
+export function adjustedHoldSeconds(seconds, alreadyAdvanced) { return Math.max(0, seconds-alreadyAdvanced-1e-9); }
 export class RobotRunner {
   constructor(canvas,onProgress=()=>{}){this.canvas=canvas;this.onProgress=onProgress;this.host=null;this.worker=null;this.bridge=null;this.overlays=[];}
   async ensure(signal){
@@ -65,7 +67,7 @@ export class RobotRunner {
           // The source viewer advances a tick when applying a command. LeKiwi
           // reference hold durations already include that command tick; debit it
           // to avoid accumulating an extra 20 ms per route segment.
-          const duration=task.profile==='lekiwi'?Math.max(0,e.seconds-commandAdvance):e.seconds;
+          const duration=task.profile==='lekiwi'?adjustedHoldSeconds(e.seconds,commandAdvance):e.seconds;
           commandAdvance=0;
           await this.host.advanceTime(duration,{realtime:false,beforeTick:()=>!signal.aborted});this.check(signal);samples.push(this.host.getTelemetry());
         }
