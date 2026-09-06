@@ -11,7 +11,7 @@ for _filename, _source in json.loads(_bench_files_json).items():
     for _node in ast.walk(_tree):
         if isinstance(_node, (ast.Import, ast.ImportFrom)):
             _modules = [_node.module or ''] if isinstance(_node, ast.ImportFrom) else [a.name for a in _node.names]
-            if any(m.split('.')[0] not in _allowed_imports for m in _modules) or getattr(_node, 'level', 0):
+            if any(m.split('.')[0] not in _allowed_imports for m in _modules) or getattr(_node, 'level', 0) or any(a.name.startswith('_') for a in _node.names):
                 raise ValueError('Unsupported import in ' + _filename)
         if isinstance(_node, ast.Name) and (_node.id.startswith('_') or _node.id in _forbidden_names):
             raise ValueError('Unsupported name ' + _node.id + ' in ' + _filename)
@@ -27,6 +27,7 @@ self.onmessage = async ({data}) => {
     self.loadPyodide = loadPyodide;
     const runtime = new PythonRuntime();
     const py = await runtime.ensure();
+    self.postMessage({phase:'checking'});
     py.globals.set('_bench_files_json', JSON.stringify(data.files));
     try { await py.runPythonAsync(GUARD); }
     catch (e) { self.postMessage({ok:false,code:'PYTHON_VALIDATION',message:String(e.message)}); return; }

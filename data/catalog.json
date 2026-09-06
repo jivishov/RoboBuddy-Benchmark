@@ -1,5 +1,6 @@
 {
   "version": "1.0.0",
+  "benchmarkCommit": "b0ade17ae5520ef15fc627aa12f6bfe3e3d232f6",
   "runtimeRevision": "e87940e17271daff0390f6d38cbd4a27ddf18b48",
   "labRevision": "e66472f898a6a5fb12d85f3f1d1f64ad10e48259",
   "profiles": {
@@ -1358,7 +1359,13 @@
           }
         ]
       },
-      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification."
+      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification.",
+      "verification": {
+        "qualified": true,
+        "referenceScore": 100,
+        "referenceError": null,
+        "checkedAt": "2026-09-06T08:34:33.328Z"
+      }
     },
     {
       "id": "so101-v2-08-burette-initial-reading",
@@ -2278,7 +2285,13 @@
           }
         ]
       },
-      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification."
+      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification.",
+      "verification": {
+        "qualified": true,
+        "referenceScore": 100,
+        "referenceError": null,
+        "checkedAt": "2026-09-06T08:34:33.328Z"
+      }
     },
     {
       "id": "so101-v2-09-vacuum-filtration",
@@ -3198,7 +3211,13 @@
           }
         ]
       },
-      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification."
+      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification.",
+      "verification": {
+        "qualified": true,
+        "referenceScore": 100,
+        "referenceError": null,
+        "checkedAt": "2026-09-06T08:34:33.328Z"
+      }
     },
     {
       "id": "openarm-04-filtration-workcell",
@@ -4242,7 +4261,13 @@
           }
         ]
       },
-      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification."
+      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification.",
+      "verification": {
+        "qualified": true,
+        "referenceScore": 100,
+        "referenceError": null,
+        "checkedAt": "2026-09-06T08:34:33.328Z"
+      }
     },
     {
       "id": "lekiwi-01-beaker-courier",
@@ -4706,7 +4731,13 @@
           }
         ]
       },
-      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification."
+      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification.",
+      "verification": {
+        "qualified": false,
+        "referenceScore": 40,
+        "referenceError": null,
+        "checkedAt": "2026-09-06T08:34:33.328Z"
+      }
     },
     {
       "id": "unitree-g1-kinematic-pose-inspection",
@@ -4730,7 +4761,13 @@
         },
         "prohibitedStates": []
       },
-      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification."
+      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification.",
+      "verification": {
+        "qualified": true,
+        "referenceScore": 100,
+        "referenceError": null,
+        "checkedAt": "2026-09-06T08:34:33.328Z"
+      }
     },
     {
       "id": "microduck-policy-demonstrator",
@@ -4754,7 +4791,13 @@
         },
         "prohibitedStates": []
       },
-      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification."
+      "qualification": "Public workcell; consult the published smoke-test report. No hardware qualification.",
+      "verification": {
+        "qualified": true,
+        "referenceScore": 100,
+        "referenceError": null,
+        "checkedAt": "2026-09-06T08:34:33.328Z"
+      }
     }
   ],
   "starters": {
