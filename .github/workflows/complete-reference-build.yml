@@ -1,0 +1,53 @@
+name: Complete observed-distance reference integration
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/complete-reference-build.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+jobs:
+  integrate:
+    if: github.repository == 'jivishov/RoboBuddy-Benchmark' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Integrate the existing reference-only preparation script
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'jivishov/RoboBuddy-Benchmark'
+          test -s scripts/prepare-references.mjs
+          node --check scripts/prepare-references.mjs
+          node --input-type=module <<'JS'
+          import {readFileSync,writeFileSync} from 'node:fs';
+          const file='package.json';
+          const p=JSON.parse(readFileSync(file,'utf8'));
+          const old='node scripts/build.mjs && node scripts/verify-reference-bundles.mjs';
+          const next='node scripts/build.mjs && node scripts/prepare-references.mjs && node scripts/verify-reference-bundles.mjs';
+          if(p.scripts.build!==old && p.scripts.build!==next)throw new Error('Unexpected build pipeline; refusing to overwrite concurrent changes.');
+          if(p.scripts.build===old){p.scripts.build=next;writeFileSync(file,JSON.stringify(p,null,2)+'\n');}
+          JS
+          npm test
+      - name: Commit only the benchmark build-script integration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Run observed-distance reference preparation before bundle validation'
+            git push origin HEAD:main
+          fi
+      - name: Request full verification and the existing protected Pages release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api --method POST "repos/$GITHUB_REPOSITORY/actions/workflows/pages.yml/dispatches" -f ref=main
