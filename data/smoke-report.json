@@ -1,0 +1,592 @@
+{
+  "schema": "robobuddy.runtime-smoke.v1",
+  "generatedAt": "2026-09-06T08:16:50.590Z",
+  "nativeAgentTested": false,
+  "note": "Public-reference replay and no-op control on CI Chromium. Not hardware or LLM benchmark results.",
+  "tasks": [
+    {
+      "taskId": "so101-v2-06-quantitative-transfer",
+      "profile": "so101",
+      "title": "Measured Two-Bottle Transfer Workcell",
+      "reference": {
+        "error": "ABORTED",
+        "message": "Run stopped or its time budget expired."
+      },
+      "noop": {
+        "score": 0,
+        "passed": false,
+        "goals": [
+          {
+            "id": "aliquot_bottle_placed",
+            "passed": false
+          },
+          {
+            "id": "capped_rinse_bottle_placed",
+            "passed": false
+          },
+          {
+            "id": "aliquot_bottle_approach_visited",
+            "passed": false
+          },
+          {
+            "id": "aliquot_bottle_contact_visited",
+            "passed": false
+          },
+          {
+            "id": "aliquot_bottle_lift_visited",
+            "passed": false
+          },
+          {
+            "id": "aliquot_bottle_retreat_visited",
+            "passed": false
+          },
+          {
+            "id": "capped_rinse_bottle_approach_visited",
+            "passed": false
+          },
+          {
+            "id": "capped_rinse_bottle_contact_visited",
+            "passed": false
+          },
+          {
+            "id": "capped_rinse_bottle_lift_visited",
+            "passed": false
+          },
+          {
+            "id": "capped_rinse_bottle_retreat_visited",
+            "passed": false
+          },
+          {
+            "id": "station_state",
+            "passed": false
+          },
+          {
+            "id": "stock_release_before_rinse_pickup",
+            "passed": false
+          },
+          {
+            "id": "measured_bottle_spacing",
+            "passed": false
+          },
+          {
+            "id": "stock_x_coordinate",
+            "passed": false
+          },
+          {
+            "id": "rinse_x_coordinate",
+            "passed": false
+          }
+        ],
+        "fault": null,
+        "scope": "Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.",
+        "diagnostics": null,
+        "actionCount": 0
+      },
+      "qualified": false
+    },
+    {
+      "taskId": "so101-v2-08-burette-initial-reading",
+      "profile": "so101",
+      "title": "Burette Receiver Clearance Calibration",
+      "reference": {
+        "score": 100,
+        "passed": true,
+        "goals": [
+          {
+            "id": "titrant_bottle_placed",
+            "passed": true
+          },
+          {
+            "id": "titration_beaker_placed",
+            "passed": true
+          },
+          {
+            "id": "titrant_bottle_approach_visited",
+            "passed": true
+          },
+          {
+            "id": "titrant_bottle_contact_visited",
+            "passed": true
+          },
+          {
+            "id": "titrant_bottle_lift_visited",
+            "passed": true
+          },
+          {
+            "id": "titrant_bottle_retreat_visited",
+            "passed": true
+          },
+          {
+            "id": "titration_beaker_approach_visited",
+            "passed": true
+          },
+          {
+            "id": "titration_beaker_contact_visited",
+            "passed": true
+          },
+          {
+            "id": "titration_beaker_lift_visited",
+            "passed": true
+          },
+          {
+            "id": "titration_beaker_retreat_visited",
+            "passed": true
+          },
+          {
+            "id": "station_state",
+            "passed": true
+          },
+          {
+            "id": "titrant_parked_before_receiver_pickup",
+            "passed": true
+          },
+          {
+            "id": "receiver_centered_on_burette_datum",
+            "passed": true
+          },
+          {
+            "id": "titrant_bottle_outside_receiver_zone",
+            "passed": true
+          },
+          {
+            "id": "titration_workcell_spacing",
+            "passed": true
+          }
+        ],
+        "fault": null,
+        "scope": "Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.",
+        "diagnostics": null,
+        "actionCount": 182
+      },
+      "noop": {
+        "score": 0,
+        "passed": false,
+        "goals": [
+          {
+            "id": "titrant_bottle_placed",
+            "passed": false
+          },
+          {
+            "id": "titration_beaker_placed",
+            "passed": false
+          },
+          {
+            "id": "titrant_bottle_approach_visited",
+            "passed": false
+          },
+          {
+            "id": "titrant_bottle_contact_visited",
+            "passed": false
+          },
+          {
+            "id": "titrant_bottle_lift_visited",
+            "passed": false
+          },
+          {
+            "id": "titrant_bottle_retreat_visited",
+            "passed": false
+          },
+          {
+            "id": "titration_beaker_approach_visited",
+            "passed": false
+          },
+          {
+            "id": "titration_beaker_contact_visited",
+            "passed": false
+          },
+          {
+            "id": "titration_beaker_lift_visited",
+            "passed": false
+          },
+          {
+            "id": "titration_beaker_retreat_visited",
+            "passed": false
+          },
+          {
+            "id": "station_state",
+            "passed": false
+          },
+          {
+            "id": "titrant_parked_before_receiver_pickup",
+            "passed": false
+          },
+          {
+            "id": "receiver_centered_on_burette_datum",
+            "passed": false
+          },
+          {
+            "id": "titrant_bottle_outside_receiver_zone",
+            "passed": false
+          },
+          {
+            "id": "titration_workcell_spacing",
+            "passed": false
+          }
+        ],
+        "fault": null,
+        "scope": "Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.",
+        "diagnostics": null,
+        "actionCount": 0
+      },
+      "qualified": true
+    },
+    {
+      "taskId": "so101-v2-09-vacuum-filtration",
+      "profile": "so101",
+      "title": "Vacuum Workcell Keep-Clear Preflight",
+      "reference": {
+        "score": 100,
+        "passed": true,
+        "goals": [
+          {
+            "id": "filtration_reagent_bottle_placed",
+            "passed": true
+          },
+          {
+            "id": "filtration_beaker_placed",
+            "passed": true
+          },
+          {
+            "id": "filtration_reagent_bottle_approach_visited",
+            "passed": true
+          },
+          {
+            "id": "filtration_reagent_bottle_contact_visited",
+            "passed": true
+          },
+          {
+            "id": "filtration_reagent_bottle_lift_visited",
+            "passed": true
+          },
+          {
+            "id": "filtration_reagent_bottle_retreat_visited",
+            "passed": true
+          },
+          {
+            "id": "filtration_beaker_approach_visited",
+            "passed": true
+          },
+          {
+            "id": "filtration_beaker_contact_visited",
+            "passed": true
+          },
+          {
+            "id": "filtration_beaker_lift_visited",
+            "passed": true
+          },
+          {
+            "id": "filtration_beaker_retreat_visited",
+            "passed": true
+          },
+          {
+            "id": "station_state",
+            "passed": true
+          },
+          {
+            "id": "wash_bottle_release_before_beaker_pickup",
+            "passed": true
+          },
+          {
+            "id": "wash_bottle_supply_side",
+            "passed": true
+          },
+          {
+            "id": "beaker_receiver_side",
+            "passed": true
+          },
+          {
+            "id": "vacuum_preflight_spacing",
+            "passed": true
+          }
+        ],
+        "fault": null,
+        "scope": "Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.",
+        "diagnostics": null,
+        "actionCount": 182
+      },
+      "noop": {
+        "score": 0,
+        "passed": false,
+        "goals": [
+          {
+            "id": "filtration_reagent_bottle_placed",
+            "passed": false
+          },
+          {
+            "id": "filtration_beaker_placed",
+            "passed": false
+          },
+          {
+            "id": "filtration_reagent_bottle_approach_visited",
+            "passed": false
+          },
+          {
+            "id": "filtration_reagent_bottle_contact_visited",
+            "passed": false
+          },
+          {
+            "id": "filtration_reagent_bottle_lift_visited",
+            "passed": false
+          },
+          {
+            "id": "filtration_reagent_bottle_retreat_visited",
+            "passed": false
+          },
+          {
+            "id": "filtration_beaker_approach_visited",
+            "passed": false
+          },
+          {
+            "id": "filtration_beaker_contact_visited",
+            "passed": false
+          },
+          {
+            "id": "filtration_beaker_lift_visited",
+            "passed": false
+          },
+          {
+            "id": "filtration_beaker_retreat_visited",
+            "passed": false
+          },
+          {
+            "id": "station_state",
+            "passed": false
+          },
+          {
+            "id": "wash_bottle_release_before_beaker_pickup",
+            "passed": false
+          },
+          {
+            "id": "wash_bottle_supply_side",
+            "passed": false
+          },
+          {
+            "id": "beaker_receiver_side",
+            "passed": false
+          },
+          {
+            "id": "vacuum_preflight_spacing",
+            "passed": false
+          }
+        ],
+        "fault": null,
+        "scope": "Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.",
+        "diagnostics": null,
+        "actionCount": 0
+      },
+      "qualified": true
+    },
+    {
+      "taskId": "openarm-04-filtration-workcell",
+      "profile": "openarm",
+      "title": "Bimanual Heater and Ring-Stand Stack",
+      "reference": {
+        "score": 100,
+        "passed": true,
+        "goals": [
+          {
+            "id": "left_stack_complete",
+            "passed": true
+          },
+          {
+            "id": "right_stack_complete",
+            "passed": true
+          },
+          {
+            "id": "erlenmeyer_hotplate_height",
+            "passed": true
+          },
+          {
+            "id": "beaker_ring_stand_height",
+            "passed": true
+          },
+          {
+            "id": "workcell_confirmation_complete",
+            "passed": true
+          },
+          {
+            "id": "left_release_before_clear_retreat",
+            "passed": true
+          },
+          {
+            "id": "right_release_before_clear_retreat",
+            "passed": true
+          }
+        ],
+        "fault": null,
+        "scope": "Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.",
+        "diagnostics": null,
+        "actionCount": 116
+      },
+      "noop": {
+        "score": 0,
+        "passed": false,
+        "goals": [
+          {
+            "id": "left_stack_complete",
+            "passed": false
+          },
+          {
+            "id": "right_stack_complete",
+            "passed": false
+          },
+          {
+            "id": "erlenmeyer_hotplate_height",
+            "passed": false
+          },
+          {
+            "id": "beaker_ring_stand_height",
+            "passed": false
+          },
+          {
+            "id": "workcell_confirmation_complete",
+            "passed": false
+          },
+          {
+            "id": "left_release_before_clear_retreat",
+            "passed": false
+          },
+          {
+            "id": "right_release_before_clear_retreat",
+            "passed": false
+          }
+        ],
+        "fault": null,
+        "scope": "Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.",
+        "diagnostics": null,
+        "actionCount": 0
+      },
+      "qualified": true
+    },
+    {
+      "taskId": "lekiwi-01-beaker-courier",
+      "profile": "lekiwi",
+      "title": "Beaker Courier",
+      "reference": {
+        "score": 20,
+        "passed": false,
+        "goals": [
+          {
+            "id": "configured_route_completed",
+            "passed": false
+          },
+          {
+            "id": "object_delivered",
+            "passed": false
+          },
+          {
+            "id": "placement_contact_committed",
+            "passed": false
+          },
+          {
+            "id": "stow_retreat_completed",
+            "passed": false
+          },
+          {
+            "id": "base_returned_home",
+            "passed": true
+          }
+        ],
+        "fault": null,
+        "scope": "Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.",
+        "diagnostics": null,
+        "actionCount": 136
+      },
+      "noop": {
+        "score": 0,
+        "passed": false,
+        "goals": [
+          {
+            "id": "configured_route_completed",
+            "passed": false
+          },
+          {
+            "id": "object_delivered",
+            "passed": false
+          },
+          {
+            "id": "placement_contact_committed",
+            "passed": false
+          },
+          {
+            "id": "stow_retreat_completed",
+            "passed": false
+          },
+          {
+            "id": "base_returned_home",
+            "passed": false
+          }
+        ],
+        "fault": null,
+        "scope": "Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.",
+        "diagnostics": null,
+        "actionCount": 0
+      },
+      "qualified": false
+    },
+    {
+      "taskId": "unitree-g1-kinematic-pose-inspection",
+      "profile": "unitree",
+      "title": "Unitree G1 29-DoF Kinematic Pose Inspection",
+      "reference": {
+        "score": 100,
+        "passed": true,
+        "goals": [
+          {
+            "id": "bilateral-inspection-pose",
+            "passed": true
+          },
+          {
+            "id": "return-to-neutral",
+            "passed": true
+          },
+          {
+            "id": "executed-motion",
+            "passed": true
+          }
+        ],
+        "fault": null,
+        "scope": "Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.",
+        "diagnostics": null,
+        "actionCount": 3
+      },
+      "noop": {
+        "score": 0,
+        "passed": false,
+        "goals": [
+          {
+            "id": "bilateral-inspection-pose",
+            "passed": false
+          },
+          {
+            "id": "return-to-neutral",
+            "passed": false
+          },
+          {
+            "id": "executed-motion",
+            "passed": false
+          }
+        ],
+        "fault": null,
+        "scope": "Robot motion and configured modeled goal predicates only. Not chemical or hardware validation.",
+        "diagnostics": null,
+        "actionCount": 0
+      },
+      "qualified": true
+    },
+    {
+      "taskId": "microduck-policy-demonstrator",
+      "profile": "microduck",
+      "title": "MicroDuck Articulated Policy Demonstrator",
+      "reference": {
+        "error": "DEPENDENCY_UNAVAILABLE",
+        "message": "Pinned workcell could not initialize: Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.jsdelivr.net\".\n"
+      },
+      "noop": {
+        "error": "DEPENDENCY_UNAVAILABLE",
+        "message": "Pinned workcell could not initialize: Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.jsdelivr.net\".\n"
+      },
+      "qualified": false
+    }
+  ]
+}

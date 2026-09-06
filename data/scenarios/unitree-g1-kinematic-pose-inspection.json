@@ -1,0 +1,75 @@
+{
+  "schema": "robobuddy.ide-rig-inspection.v1",
+  "simulationMode": "kinematic_pose",
+  "workspaceRevision": "unitree-g1-rig-v1",
+  "id": "unitree-g1-kinematic-pose-inspection",
+  "title": "Unitree G1 29-DoF Kinematic Pose Inspection",
+  "brief": "Inspect the canonical Unitree G1 mesh through bounded named joint poses. This workspace deliberately has no collision/contact plant, gait, balance, or hardware-control claim.",
+  "robotId": "unitree_g1_29dof",
+  "canonicalModel": {
+    "repository": "jivishov/RoboBuddy_AI",
+    "revision": "66d18a029a0caeb6a6075e681dbd9ecd6b22affa",
+    "module": "simulator/js/robot-mesh-data-unitree-g1.js",
+    "sourceRepository": "unitreerobotics/unitree_ros",
+    "sourceRevision": "dd4fa6866e523ad61324f658d63736e4eda3a6e4",
+    "sourcePath": "robots/g1_description/g1_29dof.urdf",
+    "license": "BSD-3-Clause"
+  },
+  "frames": {
+    "geometry": "Three.js Y-up metres",
+    "transforms": "Three.js Y-up millimetres",
+    "root": "fixed visual root; no locomotion model"
+  },
+  "portablePython": {
+    "referenceActions": [
+      {
+        "label": "Upper-body joint-pose inspection",
+        "hold_seconds": 0.35,
+        "action": {
+          "waist_pitch_joint": 8,
+          "left_shoulder_pitch_joint": -35,
+          "left_shoulder_roll_joint": 28,
+          "left_elbow_joint": 45,
+          "left_wrist_pitch_joint": -10,
+          "right_shoulder_pitch_joint": -35,
+          "right_shoulder_roll_joint": -28,
+          "right_elbow_joint": 45,
+          "right_wrist_pitch_joint": -10
+        }
+      },
+      {
+        "label": "Lower-body joint-pose inspection (root fixed)",
+        "hold_seconds": 0.35,
+        "action": {
+          "left_hip_roll_joint": 8,
+          "left_knee_joint": 22,
+          "left_ankle_pitch_joint": -10,
+          "right_hip_roll_joint": -8,
+          "right_knee_joint": 22,
+          "right_ankle_pitch_joint": -10
+        }
+      },
+      {
+        "label": "Return inspected joints to neutral",
+        "hold_seconds": 0.35,
+        "action": {
+          "waist_pitch_joint": 0,
+          "left_shoulder_pitch_joint": 0,
+          "left_shoulder_roll_joint": 0,
+          "left_elbow_joint": 0,
+          "left_wrist_pitch_joint": 0,
+          "right_shoulder_pitch_joint": 0,
+          "right_shoulder_roll_joint": 0,
+          "right_elbow_joint": 0,
+          "right_wrist_pitch_joint": 0,
+          "left_hip_roll_joint": 0,
+          "left_knee_joint": 0,
+          "left_ankle_pitch_joint": 0,
+          "right_hip_roll_joint": 0,
+          "right_knee_joint": 0,
+          "right_ankle_pitch_joint": 0
+        }
+      }
+    ]
+  }
+}

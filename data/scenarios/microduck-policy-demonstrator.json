@@ -1,0 +1,25 @@
+{
+  "schema": "robobuddy.microduck-workspace.v1",
+  "simulationMode": "policy_sim",
+  "workspaceRevision": "microduck-cycle04-live-python-v1",
+  "id": "microduck-policy-demonstrator",
+  "title": "MicroDuck Articulated Policy Demonstrator",
+  "robotId": "microduck_runtime_visual",
+  "variant": "walking",
+  "brief": "Run live async Python against the exact pinned policies and approximate browser dynamics while inspecting the official compact runtime visual and modeled state.",
+  "canonicalModel": {
+    "repository": "pollen-robotics/microduck",
+    "revision": "590b986bd8c0d50ae02cb3ea2f59c463b6828168",
+    "sourcePath": "robotctl/assets/duck.bin",
+    "hierarchySourcePath": "kinematics/assets/alpha/robot_walk.xml",
+    "geometry": "official compact robotctl monitor mesh"
+  },
+  "frames": {
+    "geometry": "Source Z-up metres converted to Three.js Y-up and displayed at millimetre scale",
+    "hierarchy": "pinned runtime XML and DUCK v1 body records",
+    "mouthRollersContacts": "original configured approximations"
+  },
+  "portablePython": {
+    "referenceActions": []
+  }
+}

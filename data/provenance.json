@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "ide": {
+    "repository": "jivishov/RoboBuddy_IDE",
+    "revision": "e87940e17271daff0390f6d38cbd4a27ddf18b48",
+    "access": "read-only build dependency"
+  },
+  "lab": {
+    "repository": "jivishov/Lab-Studio_WebMCP",
+    "revision": "e66472f898a6a5fb12d85f3f1d1f64ad10e48259",
+    "workflow": "public/techniques/titration-endpoint.json"
+  },
+  "sourceEngine": {
+    "repository": "jivishov/RoboBuddy_AI",
+    "revision": "75fe2669c0ab0b029986de424c69162071174df8"
+  },
+  "notes": [
+    "No upstream repositories are modified.",
+    "Model/provider labels are user-declared.",
+    "Public references are not a secret holdout.",
+    "GitHub Pages stores no model API keys or centralized leaderboard."
+  ]
+}

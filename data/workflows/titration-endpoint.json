@@ -1,0 +1,1723 @@
+{
+  "id": "titration-endpoint",
+  "title": "Acid-Base Titration to an Indicator Endpoint",
+  "learningGoal": "Assemble a burette, seat a filling funnel for conditioning and the NaOH transfer, remove it to the workbench before reading, record initial and final levels as separate evidence, deliver titrant to a persistent indicator endpoint, and calculate analyte molarity.",
+  "requiredEquipment": [
+    "unknown-acid-bottle",
+    "graduated-cylinder",
+    "erlenmeyer-flask-250ml",
+    "phenolphthalein-dropper",
+    "naoh-bottle",
+    "burette-50ml",
+    "ring-stand-clamp",
+    "funnel",
+    "waste-beaker"
+  ],
+  "initialState": {
+    "equipment": [
+      {
+        "id": "unknown-acid-bottle-1",
+        "definitionId": "unknown-acid-bottle",
+        "label": "Unknown acid",
+        "location": "shelf",
+        "contents": {
+          "kind": "solution",
+          "label": "Unknown acid",
+          "volumeMl": 100,
+          "solutes": [],
+          "concentration": {
+            "value": 0.1,
+            "unit": "M"
+          },
+          "contamination": [],
+          "wetState": "wet",
+          "visualState": "clear-liquid"
+        }
+      },
+      {
+        "id": "naoh-bottle-1",
+        "definitionId": "naoh-bottle",
+        "label": "0.100 M NaOH",
+        "location": "shelf",
+        "contents": {
+          "kind": "solution",
+          "label": "Standard sodium hydroxide",
+          "volumeMl": 250,
+          "solutes": [],
+          "concentration": {
+            "value": 0.1,
+            "unit": "M"
+          },
+          "contamination": [],
+          "wetState": "wet",
+          "visualState": "clear-liquid"
+        }
+      },
+      {
+        "id": "phenolphthalein-dropper-1",
+        "definitionId": "phenolphthalein-dropper",
+        "label": "Phenolphthalein",
+        "location": "shelf",
+        "contents": {
+          "kind": "liquid",
+          "label": "Phenolphthalein indicator",
+          "volumeMl": 30,
+          "solutes": [],
+          "contamination": [],
+          "wetState": "wet",
+          "visualState": "clear-liquid"
+        }
+      },
+      {
+        "id": "graduated-cylinder-1",
+        "definitionId": "graduated-cylinder",
+        "label": "Graduated cylinder",
+        "location": "shelf",
+        "contents": {
+          "kind": "empty",
+          "label": "empty",
+          "solutes": [],
+          "contamination": [],
+          "wetState": "dry",
+          "visualState": "empty"
+        }
+      },
+      {
+        "id": "erlenmeyer-flask-250ml-1",
+        "definitionId": "erlenmeyer-flask-250ml",
+        "label": "250 mL Erlenmeyer flask",
+        "location": "shelf",
+        "contents": {
+          "kind": "empty",
+          "label": "empty",
+          "solutes": [],
+          "contamination": [],
+          "wetState": "dry",
+          "visualState": "empty"
+        }
+      },
+      {
+        "id": "burette-50ml-1",
+        "definitionId": "burette-50ml",
+        "label": "50 mL burette",
+        "location": "shelf",
+        "contents": {
+          "kind": "empty",
+          "label": "empty",
+          "solutes": [],
+          "contamination": [],
+          "wetState": "dry",
+          "visualState": "empty"
+        }
+      },
+      {
+        "id": "ring-stand-clamp-1",
+        "definitionId": "ring-stand-clamp",
+        "label": "Ring stand and clamp",
+        "location": "shelf",
+        "contents": {
+          "kind": "empty",
+          "label": "empty",
+          "solutes": [],
+          "contamination": [],
+          "wetState": "dry",
+          "visualState": "empty"
+        }
+      },
+      {
+        "id": "funnel-1",
+        "definitionId": "funnel",
+        "label": "Burette filling funnel",
+        "location": "shelf",
+        "contents": {
+          "kind": "empty",
+          "label": "empty",
+          "solutes": [],
+          "contamination": [],
+          "wetState": "dry",
+          "visualState": "empty"
+        }
+      },
+      {
+        "id": "waste-beaker-1",
+        "definitionId": "waste-beaker",
+        "label": "Waste beaker",
+        "location": "shelf",
+        "contents": {
+          "kind": "empty",
+          "label": "empty",
+          "solutes": [],
+          "contamination": [],
+          "wetState": "dry",
+          "visualState": "empty"
+        }
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "place-ring-stand",
+      "verb": "place",
+      "label": "Set up the burette stand and clamp",
+      "atomId": "atom.place.burette-support",
+      "equipmentRoleBindings": {
+        "burette-support": "ring-stand-clamp"
+      },
+      "parameters": {
+        "equipmentDefinitionId": "ring-stand-clamp",
+        "sourceDefinitionId": "ring-stand-clamp",
+        "location": "workbench"
+      },
+      "interaction": {
+        "type": "dragToZone",
+        "sourceDefinitionId": "ring-stand-clamp",
+        "stationId": "workbench",
+        "successCue": "The stand is upright with the clamp positioned.",
+        "invalidCue": "Drag the ring stand and clamp onto the workbench before mounting the burette.",
+        "accessibleLabel": "Place the ring stand and burette clamp on the workbench."
+      },
+      "prerequisites": [],
+      "stateChanges": [
+        "Place the ring stand and clamp on the workbench."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        }
+      ],
+      "feedback": {
+        "success": "The stand is upright with the clamp positioned.",
+        "invalid": "Place the ring stand and clamp before mounting the burette."
+      },
+      "evidence": [
+        "place",
+        "titration-setup"
+      ]
+    },
+    {
+      "id": "mount-burette",
+      "verb": "place",
+      "label": "Mount the burette in the clamp",
+      "atomId": "atom.place.mount-burette",
+      "equipmentRoleBindings": {
+        "titrant-delivery-device": "burette-50ml",
+        "burette-support": "ring-stand-clamp"
+      },
+      "parameters": {
+        "equipmentDefinitionId": "burette-50ml",
+        "sourceDefinitionId": "burette-50ml",
+        "targetDefinitionId": "ring-stand-clamp",
+        "snapZoneId": "ring-stand-burette-clamp"
+      },
+      "interaction": {
+        "type": "snapIntoTarget",
+        "sourceDefinitionId": "burette-50ml",
+        "targetDefinitionId": "ring-stand-clamp",
+        "snapZoneId": "ring-stand-burette-clamp",
+        "successCue": "The burette is clamped vertically with the stopcock reachable.",
+        "invalidCue": "Seat the burette in the ring-stand clamp before conditioning it.",
+        "accessibleLabel": "Mount the 50 mL burette in the ring stand clamp."
+      },
+      "prerequisites": [
+        {
+          "id": "support-required",
+          "type": "actionEvidence",
+          "label": "The burette support is set up.",
+          "actionId": "place-ring-stand"
+        }
+      ],
+      "stateChanges": [
+        "Clamp the burette to the ring stand."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        },
+        {
+          "id": "no-support",
+          "when": "no ring stand and clamp are on the workbench",
+          "message": "There is nothing to clamp the burette to.",
+          "recovery": "Place the ring stand and clamp first, then seat the burette in it."
+        }
+      ],
+      "feedback": {
+        "success": "The burette is clamped vertically with the stopcock reachable.",
+        "invalid": "Place the ring stand and clamp before mounting the burette."
+      },
+      "evidence": [
+        "place",
+        "titration-setup"
+      ]
+    },
+    {
+      "id": "condition-burette",
+      "verb": "rinse",
+      "label": "Condition the burette with titrant",
+      "atomId": "atom.rinse.condition-burette",
+      "equipmentRoleBindings": {
+        "titrant-source": "naoh-bottle",
+        "titrant-delivery-device": "burette-50ml",
+        "burette-filling-funnel": "funnel",
+        "waste-receiver": "waste-beaker"
+      },
+      "parameters": {
+        "sourceDefinitionId": "naoh-bottle",
+        "targetDefinitionId": "burette-50ml",
+        "rinseType": "condition",
+        "wasteDefinitionId": "waste-beaker",
+        "requiredAttachmentState": "attached",
+        "attachmentParentDefinitionId": "burette-50ml",
+        "attachmentChildDefinitionId": "funnel",
+        "attachmentSnapZoneId": "burette-funnel-seat",
+        "note": "Rinse with small portions of the titrant itself, not water, and discard each portion to the waste beaker."
+      },
+      "interaction": {
+        "type": "rinseTarget",
+        "sourceDefinitionId": "naoh-bottle",
+        "targetDefinitionId": "burette-50ml",
+        "successCue": "The burette is conditioned with titrant and drained to waste.",
+        "invalidCue": "Seat the filling funnel, then rinse the mounted burette with titrant before filling it.",
+        "accessibleLabel": "Rinse the burette through the seated funnel with small portions of the standard sodium hydroxide and discard them to the waste beaker."
+      },
+      "prerequisites": [
+        {
+          "id": "burette-mounted-required",
+          "type": "actionEvidence",
+          "label": "The burette is clamped to the stand.",
+          "actionId": "mount-burette"
+        },
+        {
+          "id": "funnel-seated-before-conditioning",
+          "type": "actionEvidence",
+          "label": "The filling funnel is seated in the burette.",
+          "actionId": "seat-burette-funnel"
+        }
+      ],
+      "stateChanges": [
+        "Condition the burette through the seated funnel with titrant and drain the rinsings to waste."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        },
+        {
+          "id": "water-rinse",
+          "when": "the burette is rinsed with water instead of titrant",
+          "message": "Water left in the burette dilutes the titrant.",
+          "recovery": "Condition with the titrant itself; a water rinse is not a conditioning rinse."
+        },
+        {
+          "id": "missing-conditioning-funnel",
+          "when": "the funnel is not attached to burette-funnel-seat",
+          "message": "The filling funnel is not seated for the conditioning rinse.",
+          "recovery": "Seat the glass funnel in the mounted burette, then pass the conditioning portions through it."
+        }
+      ],
+      "feedback": {
+        "success": "The burette is conditioned with titrant and drained to waste.",
+        "invalid": "Mount the burette and seat the filling funnel before conditioning it."
+      },
+      "evidence": [
+        "rinse",
+        "titration-setup"
+      ]
+    },
+    {
+      "id": "seat-burette-funnel",
+      "verb": "place",
+      "label": "Seat the filling funnel in the burette",
+      "atomId": "atom.place.burette-filling-funnel",
+      "equipmentRoleBindings": {
+        "titrant-delivery-device": "burette-50ml",
+        "burette-filling-funnel": "funnel"
+      },
+      "parameters": {
+        "equipmentDefinitionId": "funnel",
+        "sourceDefinitionId": "funnel",
+        "targetDefinitionId": "burette-50ml",
+        "snapZoneId": "burette-funnel-seat"
+      },
+      "interaction": {
+        "type": "snapIntoTarget",
+        "sourceDefinitionId": "funnel",
+        "targetDefinitionId": "burette-50ml",
+        "snapZoneId": "burette-funnel-seat",
+        "successCue": "The filling funnel is seated upright in the burette opening.",
+        "invalidCue": "Seat the glass funnel in the top of the mounted burette before conditioning it.",
+        "accessibleLabel": "Place the glass filling funnel in the top of the mounted burette."
+      },
+      "prerequisites": [
+        {
+          "id": "mounted-before-funnel",
+          "type": "actionEvidence",
+          "label": "The burette is clamped to the stand.",
+          "actionId": "mount-burette"
+        }
+      ],
+      "stateChanges": [
+        "Seat the dry filling funnel upright in the burette opening."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Mount the burette, then place the funnel in its top opening before conditioning."
+        },
+        {
+          "id": "wrong-seat",
+          "when": "the funnel is not attached to burette-funnel-seat",
+          "message": "The funnel is not seated in the burette opening.",
+          "recovery": "Detach it from any other support and snap it into the highlighted burette opening."
+        }
+      ],
+      "feedback": {
+        "success": "The filling funnel is seated upright in the burette opening.",
+        "invalid": "Seat the filling funnel on the mounted burette before conditioning."
+      },
+      "evidence": [
+        "place",
+        "titration-setup"
+      ]
+    },
+    {
+      "id": "fill-burette",
+      "verb": "transfer",
+      "label": "Fill the conditioned burette",
+      "atomId": "atom.transfer.fill-burette",
+      "equipmentRoleBindings": {
+        "titrant-source": "naoh-bottle",
+        "titrant-delivery-device": "burette-50ml",
+        "burette-filling-funnel": "funnel"
+      },
+      "parameters": {
+        "sourceDefinitionId": "naoh-bottle",
+        "targetDefinitionId": "burette-50ml",
+        "volumeMl": 45,
+        "requiredAttachmentState": "attached",
+        "attachmentParentDefinitionId": "burette-50ml",
+        "attachmentChildDefinitionId": "funnel",
+        "attachmentSnapZoneId": "burette-funnel-seat",
+        "tipAirRemovalIsTeacherConfigured": true
+      },
+      "interaction": {
+        "type": "pourInto",
+        "sourceDefinitionId": "naoh-bottle",
+        "targetDefinitionId": "burette-50ml",
+        "valueParameter": "volumeMl",
+        "successCue": "The NaOH has passed through the funnel into the burette, and the tip is clear.",
+        "invalidCue": "Seat the filling funnel on the conditioned burette before pouring the NaOH.",
+        "accessibleLabel": "Pour the standard sodium hydroxide through the seated funnel into the conditioned burette."
+      },
+      "prerequisites": [
+        {
+          "id": "conditioned-required",
+          "type": "actionEvidence",
+          "label": "The burette has been conditioned with titrant.",
+          "actionId": "condition-burette"
+        },
+        {
+          "id": "funnel-seated-required",
+          "type": "actionEvidence",
+          "label": "The filling funnel is seated in the burette.",
+          "actionId": "seat-burette-funnel"
+        }
+      ],
+      "stateChanges": [
+        "Fill the conditioned burette with titrant."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        },
+        {
+          "id": "fill-before-conditioning",
+          "when": "the burette has not been conditioned",
+          "message": "The burette still holds rinse water.",
+          "recovery": "Condition the burette with the titrant first, then fill it."
+        },
+        {
+          "id": "missing-filling-funnel",
+          "when": "the funnel is not attached to burette-funnel-seat",
+          "message": "The NaOH cannot be poured into the narrow burette opening without the filling funnel.",
+          "recovery": "Seat the glass funnel in the top of the mounted burette, then pour the NaOH through it."
+        }
+      ],
+      "feedback": {
+        "success": "The NaOH has passed through the funnel into the burette, and the tip is clear.",
+        "invalid": "Condition the burette and seat the filling funnel before filling it."
+      },
+      "evidence": [
+        "transfer",
+        "titration-setup"
+      ]
+    },
+    {
+      "id": "remove-burette-funnel",
+      "verb": "place",
+      "label": "Remove the filling funnel",
+      "atomId": "atom.place.remove-burette-filling-funnel",
+      "equipmentRoleBindings": {
+        "titrant-delivery-device": "burette-50ml",
+        "burette-filling-funnel": "funnel"
+      },
+      "parameters": {
+        "equipmentDefinitionId": "funnel",
+        "sourceDefinitionId": "funnel",
+        "location": "workbench",
+        "requiredAttachmentState": "attached",
+        "attachmentParentDefinitionId": "burette-50ml",
+        "attachmentChildDefinitionId": "funnel",
+        "attachmentSnapZoneId": "burette-funnel-seat"
+      },
+      "interaction": {
+        "type": "dragToZone",
+        "sourceDefinitionId": "funnel",
+        "stationId": "workbench",
+        "successCue": "The filling funnel is removed and placed on the workbench.",
+        "invalidCue": "Remove the funnel from the burette and place it on the workbench before reading the meniscus.",
+        "accessibleLabel": "Remove the filling funnel from the burette and place it on the workbench."
+      },
+      "prerequisites": [
+        {
+          "id": "filled-before-funnel-removal",
+          "type": "actionEvidence",
+          "label": "The burette has been filled through the funnel.",
+          "actionId": "fill-burette"
+        }
+      ],
+      "stateChanges": [
+        "Detach the filling funnel from the burette and place it on the workbench."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Fill the burette through the funnel before removing it."
+        },
+        {
+          "id": "funnel-not-seated",
+          "when": "the funnel is not attached to the burette",
+          "message": "The filling funnel is not on the burette.",
+          "recovery": "Return to the funnel-placement step if the burette has not yet been filled."
+        }
+      ],
+      "feedback": {
+        "success": "The filling funnel is removed and placed on the workbench.",
+        "invalid": "Remove the filling funnel only after the burette has been filled."
+      },
+      "evidence": [
+        "place",
+        "titration-setup"
+      ]
+    },
+    {
+      "id": "read-initial-burette",
+      "verb": "measureVolume",
+      "label": "Read the initial burette level",
+      "atomId": "atom.measure.read-burette",
+      "equipmentRoleBindings": {
+        "titrant-delivery-device": "burette-50ml"
+      },
+      "parameters": {
+        "sourceDefinitionId": "burette-50ml",
+        "measurementId": "burette-initial-volume",
+        "label": "Initial burette reading",
+        "readingPrecisionMl": 0.05,
+        "scaleReadsDownward": true,
+        "requiredAttachmentState": "detached",
+        "attachmentParentDefinitionId": "burette-50ml",
+        "attachmentChildDefinitionId": "funnel",
+        "attachmentSnapZoneId": "burette-funnel-seat"
+      },
+      "interaction": {
+        "type": "readInstrument",
+        "sourceDefinitionId": "burette-50ml",
+        "stationId": "burette-50ml",
+        "successCue": "Initial burette level read from the scale.",
+        "invalidCue": "Fill the burette before reading its scale.",
+        "accessibleLabel": "Read the meniscus on the filled burette at the instrument's precision."
+      },
+      "prerequisites": [
+        {
+          "id": "filled-required",
+          "type": "actionEvidence",
+          "label": "The burette has been filled with titrant.",
+          "actionId": "fill-burette"
+        },
+        {
+          "id": "funnel-removed-required",
+          "type": "actionEvidence",
+          "label": "The filling funnel has been removed from the burette.",
+          "actionId": "remove-burette-funnel"
+        }
+      ],
+      "stateChanges": [
+        "Read the burette scale; nothing is delivered by a reading."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        },
+        {
+          "id": "empty-burette",
+          "when": "the burette holds no titrant",
+          "message": "There is no meniscus to read.",
+          "recovery": "Condition and fill the burette, then read the scale."
+        },
+        {
+          "id": "funnel-still-present",
+          "when": "the filling funnel remains attached to the burette",
+          "message": "The filling funnel is still in the burette opening.",
+          "recovery": "Remove it and return it to the shelf before reading the initial meniscus."
+        }
+      ],
+      "feedback": {
+        "success": "Initial burette level read from the scale.",
+        "invalid": "Fill the burette before reading it."
+      },
+      "evidence": [
+        "measureVolume",
+        "measurement"
+      ]
+    },
+    {
+      "id": "record-initial-burette",
+      "verb": "record",
+      "label": "Record the initial burette reading",
+      "parameters": {
+        "measurementId": "burette-initial-volume",
+        "label": "Initial burette reading",
+        "unit": "mL"
+      },
+      "interaction": {
+        "type": "recordNotebook",
+        "valueParameter": "measurementId",
+        "successCue": "Initial burette reading recorded.",
+        "invalidCue": "Read the burette before recording its value.",
+        "accessibleLabel": "Record the initial burette reading you read from the scale."
+      },
+      "prerequisites": [
+        {
+          "id": "initial-read-required",
+          "type": "measurementRecorded",
+          "label": "The initial burette level has been read.",
+          "measurementId": "burette-initial-volume"
+        }
+      ],
+      "stateChanges": [
+        "Record the initial burette reading in the notebook."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        },
+        {
+          "id": "no-reading",
+          "when": "no burette reading has been taken",
+          "message": "There is no reading to record.",
+          "recovery": "Read the burette scale first; the simulator does not supply a starting value."
+        }
+      ],
+      "feedback": {
+        "success": "Initial burette reading recorded.",
+        "invalid": "Read the burette before recording its value."
+      },
+      "evidence": [
+        "record",
+        "measurement",
+        "notebook"
+      ]
+    },
+    {
+      "id": "measure-acid",
+      "verb": "measureVolume",
+      "label": "Measure the acid aliquot",
+      "atomId": "atom.measure.variable-volume",
+      "equipmentRoleBindings": {
+        "variable-volume-measuring-device": "graduated-cylinder",
+        "liquid-source": "unknown-acid-bottle"
+      },
+      "parameters": {
+        "sourceDefinitionId": "unknown-acid-bottle",
+        "targetDefinitionId": "graduated-cylinder",
+        "measurementId": "acid-aliquot-volume",
+        "volumeMl": 25,
+        "tolerance": 0.2
+      },
+      "interaction": {
+        "type": "pourInto",
+        "sourceDefinitionId": "unknown-acid-bottle",
+        "targetDefinitionId": "graduated-cylinder",
+        "valueParameter": "volumeMl",
+        "successCue": "Acid aliquot measured.",
+        "invalidCue": "Pour the unknown acid into the graduated cylinder for this step.",
+        "accessibleLabel": "Measure the acid aliquot into the graduated cylinder and read the graduation."
+      },
+      "prerequisites": [],
+      "stateChanges": [
+        "Measure the acid aliquot into the graduated cylinder."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        },
+        {
+          "id": "missing-source",
+          "when": "source equipment or contents are missing",
+          "message": "The selected source does not contain the acid this step measures.",
+          "recovery": "Select the unknown-acid bottle as the source."
+        }
+      ],
+      "feedback": {
+        "success": "Acid aliquot measured.",
+        "invalid": "Measure the acid aliquot before continuing."
+      },
+      "evidence": [
+        "measureVolume",
+        "measurement"
+      ]
+    },
+    {
+      "id": "transfer-acid-flask",
+      "verb": "transfer",
+      "label": "Transfer the acid to the receiving flask",
+      "atomId": "atom.transfer.measured-liquid",
+      "equipmentRoleBindings": {
+        "measured-solvent-source": "graduated-cylinder",
+        "receiving-vessel": "erlenmeyer-flask-250ml"
+      },
+      "parameters": {
+        "sourceDefinitionId": "graduated-cylinder",
+        "targetDefinitionId": "erlenmeyer-flask-250ml",
+        "volumeMl": 25
+      },
+      "interaction": {
+        "type": "pourInto",
+        "sourceDefinitionId": "graduated-cylinder",
+        "targetDefinitionId": "erlenmeyer-flask-250ml",
+        "valueParameter": "volumeMl",
+        "successCue": "The measured acid is in the Erlenmeyer flask.",
+        "invalidCue": "Transfer the measured acid aliquot into the Erlenmeyer flask.",
+        "accessibleLabel": "Pour the measured acid from the graduated cylinder into the Erlenmeyer flask."
+      },
+      "prerequisites": [
+        {
+          "id": "acid-aliquot-required",
+          "type": "measurementRecorded",
+          "label": "The acid aliquot volume has been measured.",
+          "measurementId": "acid-aliquot-volume"
+        }
+      ],
+      "stateChanges": [
+        "Move the measured acid into the receiving flask."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        },
+        {
+          "id": "overflow",
+          "when": "target capacity would be exceeded",
+          "message": "The receiving flask cannot hold that volume.",
+          "recovery": "Use a larger receiver or transfer a smaller measured amount."
+        }
+      ],
+      "feedback": {
+        "success": "The measured acid is in the Erlenmeyer flask.",
+        "invalid": "Measure the acid aliquot before transferring it."
+      },
+      "evidence": [
+        "transfer"
+      ]
+    },
+    {
+      "id": "add-indicator",
+      "verb": "transfer",
+      "label": "Add indicator to the analyte",
+      "atomId": "atom.transfer.add-indicator",
+      "equipmentRoleBindings": {
+        "indicator-source": "phenolphthalein-dropper",
+        "analyte-receiver": "erlenmeyer-flask-250ml"
+      },
+      "parameters": {
+        "sourceDefinitionId": "phenolphthalein-dropper",
+        "targetDefinitionId": "erlenmeyer-flask-250ml",
+        "volumeMl": 0.1,
+        "indicatorChoiceIsTeacherConfigured": true,
+        "dropCountIsUnstated": true
+      },
+      "interaction": {
+        "type": "pourInto",
+        "sourceDefinitionId": "phenolphthalein-dropper",
+        "targetDefinitionId": "erlenmeyer-flask-250ml",
+        "valueParameter": "volumeMl",
+        "successCue": "Indicator added to the analyte.",
+        "invalidCue": "Add indicator to the acid in the Erlenmeyer flask.",
+        "accessibleLabel": "Add a few drops of the approved indicator to the acid in the Erlenmeyer flask."
+      },
+      "prerequisites": [
+        {
+          "id": "acid-transfer-required",
+          "type": "actionEvidence",
+          "label": "The acid has been transferred to the flask.",
+          "actionId": "transfer-acid-flask"
+        }
+      ],
+      "stateChanges": [
+        "Add the approved indicator to the analyte."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        },
+        {
+          "id": "empty-receiver",
+          "when": "the receiver holds no analyte",
+          "message": "There is nothing in the flask to indicate on.",
+          "recovery": "Transfer the measured acid into the flask first."
+        }
+      ],
+      "feedback": {
+        "success": "Indicator added to the analyte.",
+        "invalid": "Transfer acid into the flask before adding indicator."
+      },
+      "evidence": [
+        "transfer",
+        "indicator"
+      ]
+    },
+    {
+      "id": "position-flask-under-burette",
+      "verb": "place",
+      "label": "Place the receiving flask under the burette",
+      "atomId": "atom.place.titration-receiver",
+      "equipmentRoleBindings": {
+        "analyte-receiver": "erlenmeyer-flask-250ml",
+        "burette-support": "ring-stand-clamp"
+      },
+      "parameters": {
+        "equipmentDefinitionId": "erlenmeyer-flask-250ml",
+        "sourceDefinitionId": "erlenmeyer-flask-250ml",
+        "targetDefinitionId": "ring-stand-clamp",
+        "snapZoneId": "ring-stand-burette-receiver"
+      },
+      "interaction": {
+        "type": "snapIntoTarget",
+        "sourceDefinitionId": "erlenmeyer-flask-250ml",
+        "targetDefinitionId": "ring-stand-clamp",
+        "snapZoneId": "ring-stand-burette-receiver",
+        "successCue": "The flask is positioned beneath the burette tip.",
+        "invalidCue": "Place the receiving flask under the burette tip before titrating.",
+        "accessibleLabel": "Place the Erlenmeyer flask beneath the mounted burette tip."
+      },
+      "prerequisites": [
+        {
+          "id": "indicator-required",
+          "type": "actionEvidence",
+          "label": "Indicator has been added to the analyte.",
+          "actionId": "add-indicator"
+        }
+      ],
+      "stateChanges": [
+        "Seat the flask beneath the burette tip so each titrant increment enters the analyte."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Add indicator to the analyte before positioning the flask for titration."
+        },
+        {
+          "id": "wrong-target",
+          "when": "the flask is not aligned with the mounted-burette receiver position",
+          "message": "The flask must sit beneath the mounted burette tip.",
+          "recovery": "Snap the Erlenmeyer flask into the highlighted receiving position on the ring stand."
+        }
+      ],
+      "feedback": {
+        "success": "The flask is positioned beneath the burette tip.",
+        "invalid": "Place the receiving flask under the burette tip before titrating."
+      },
+      "evidence": [
+        "place",
+        "titration-receiver"
+      ]
+    },
+    {
+      "id": "deliver-titrant",
+      "verb": "transfer",
+      "label": "Deliver titrant to the endpoint",
+      "atomId": "atom.transfer.deliver-titrant",
+      "equipmentRoleBindings": {
+        "titrant-delivery-device": "burette-50ml",
+        "analyte-receiver": "erlenmeyer-flask-250ml"
+      },
+      "parameters": {
+        "titrationModelId": "unknown-acid-naoh",
+        "sourceDefinitionId": "burette-50ml",
+        "targetDefinitionId": "erlenmeyer-flask-250ml",
+        "requiredTargetSnapZoneId": "ring-stand-burette-receiver",
+        "initialBuretteMeasurementId": "burette-initial-volume",
+        "finalBuretteMeasurementId": "burette-final-volume",
+        "finalBuretteLabel": "Final burette reading",
+        "mixtureLabel": "Titrating acid mixture",
+        "endpointLabel": "Pale pink endpoint",
+        "overshootLabel": "darker pink shows excess base and an alkaline solution",
+        "endpointPersistenceIsTeacherConfigured": true
+      },
+      "interaction": {
+        "type": "dispenseDrops",
+        "sourceDefinitionId": "burette-50ml",
+        "targetDefinitionId": "erlenmeyer-flask-250ml",
+        "successCue": "Endpoint accepted.",
+        "invalidCue": "Mount and fill the burette, charge the flask, and record the initial reading before dispensing.",
+        "accessibleLabel": "Open the stopcock one drop at a time, in smaller additions near the endpoint, then accept the endpoint."
+      },
+      "prerequisites": [
+        {
+          "id": "burette-mounted-required",
+          "type": "actionEvidence",
+          "label": "The burette is clamped to the stand.",
+          "actionId": "mount-burette"
+        },
+        {
+          "id": "analyte-in-flask-required",
+          "type": "actionEvidence",
+          "label": "The analyte is in the receiving flask.",
+          "actionId": "transfer-acid-flask"
+        },
+        {
+          "id": "initial-burette-required",
+          "type": "measurementRecorded",
+          "label": "The initial burette reading has been recorded.",
+          "measurementId": "burette-initial-volume"
+        },
+        {
+          "id": "indicator-required",
+          "type": "actionEvidence",
+          "label": "Indicator has been added to the analyte.",
+          "actionId": "add-indicator"
+        },
+        {
+          "id": "receiver-positioned-required",
+          "type": "actionEvidence",
+          "label": "The receiving flask is positioned beneath the burette.",
+          "actionId": "position-flask-under-burette"
+        }
+      ],
+      "stateChanges": [
+        "Deliver titrant into the analyte one drop at a time."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        },
+        {
+          "id": "unmounted-burette",
+          "when": "the burette is not clamped to its support",
+          "message": "A hand-held burette cannot deliver a defensible volume.",
+          "recovery": "Clamp the burette to the ring stand before delivering titrant."
+        },
+        {
+          "id": "empty-receiver",
+          "when": "the receiving vessel holds no analyte",
+          "message": "There is no analyte under the burette tip.",
+          "recovery": "Measure and transfer the analyte aliquot into the flask first."
+        },
+        {
+          "id": "receiver-not-positioned",
+          "when": "the receiving flask is not beneath the mounted burette tip",
+          "message": "The flask is not positioned beneath the burette tip.",
+          "recovery": "Place the Erlenmeyer flask under the mounted burette before opening the stopcock."
+        },
+        {
+          "id": "no-initial-reading",
+          "when": "no initial burette reading has been recorded",
+          "message": "Delivered volume is the difference of two readings, and the first one is missing.",
+          "recovery": "Read and record the initial burette level before opening the stopcock."
+        },
+        {
+          "id": "overshoot",
+          "when": "more titrant is added after the endpoint",
+          "message": "The colour has deepened past the endpoint.",
+          "recovery": "Overshoot is recoverable only by a fresh trial; do not rewind the delivered volume."
+        }
+      ],
+      "feedback": {
+        "success": "Endpoint accepted.",
+        "invalid": "Mount and fill the burette, charge the flask, and record the initial reading before dispensing."
+      },
+      "evidence": [
+        "transfer",
+        "titrant"
+      ]
+    },
+    {
+      "id": "record-final-burette",
+      "verb": "record",
+      "label": "Record the final burette reading",
+      "parameters": {
+        "measurementId": "burette-final-volume",
+        "label": "Final burette reading",
+        "unit": "mL"
+      },
+      "interaction": {
+        "type": "recordNotebook",
+        "valueParameter": "measurementId",
+        "successCue": "Final burette reading recorded.",
+        "invalidCue": "Accept the endpoint before recording the final reading.",
+        "accessibleLabel": "Record the final burette reading after accepting the endpoint."
+      },
+      "prerequisites": [
+        {
+          "id": "final-read-required",
+          "type": "measurementRecorded",
+          "label": "The final burette level is available from the accepted endpoint.",
+          "measurementId": "burette-final-volume"
+        }
+      ],
+      "stateChanges": [
+        "Record the final burette reading in the notebook."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        },
+        {
+          "id": "no-endpoint",
+          "when": "no endpoint has been accepted",
+          "message": "There is no final reading yet.",
+          "recovery": "Deliver titrant to the endpoint and accept it, then record the reading."
+        }
+      ],
+      "feedback": {
+        "success": "Final burette reading recorded.",
+        "invalid": "Accept the endpoint before recording the final reading."
+      },
+      "evidence": [
+        "record",
+        "measurement",
+        "notebook"
+      ]
+    },
+    {
+      "id": "calculate-acid-molarity",
+      "verb": "calculate",
+      "label": "Calculate the acid molarity",
+      "parameters": {
+        "calculationId": "acid-molarity",
+        "template": "acidBaseMolarity",
+        "titrationModelId": "unknown-acid-naoh",
+        "analyteVolumeMeasurementId": "acid-aliquot-volume",
+        "initialBuretteMeasurementId": "burette-initial-volume",
+        "finalBuretteMeasurementId": "burette-final-volume",
+        "tolerance": 0.0005
+      },
+      "interaction": {
+        "type": "submitCalculation",
+        "valueParameter": "calculationId",
+        "successCue": "Acid molarity is within tolerance.",
+        "invalidCue": "Record the aliquot volume and both burette readings before calculating.",
+        "accessibleLabel": "Calculate the acid molarity from the measured aliquot and the titrant volume delivered between your two burette readings."
+      },
+      "prerequisites": [
+        {
+          "id": "aliquot-volume-required",
+          "type": "measurementRecorded",
+          "label": "The acid aliquot volume is recorded.",
+          "measurementId": "acid-aliquot-volume"
+        },
+        {
+          "id": "initial-reading-required",
+          "type": "measurementRecorded",
+          "label": "The initial burette reading is recorded.",
+          "measurementId": "burette-initial-volume"
+        },
+        {
+          "id": "final-reading-required",
+          "type": "measurementRecorded",
+          "label": "The final burette reading is recorded.",
+          "measurementId": "burette-final-volume"
+        }
+      ],
+      "stateChanges": [
+        "Calculate the analyte molarity from the recorded titration evidence."
+      ],
+      "invalidCases": [
+        {
+          "id": "wrong-order",
+          "when": "current node expects a different action",
+          "message": "That action is out of sequence for the current technique step.",
+          "recovery": "Check the process map and perform the highlighted step first."
+        },
+        {
+          "id": "missing-evidence",
+          "when": "an operand measurement has not been recorded",
+          "message": "A measurement this calculation names is missing.",
+          "recovery": "Record the aliquot volume and both burette readings; the simulator will not substitute a value."
+        }
+      ],
+      "feedback": {
+        "success": "Acid molarity is within tolerance.",
+        "invalid": "Complete all titration evidence before calculating."
+      },
+      "evidence": [
+        "calculate",
+        "measurement",
+        "notebook"
+      ]
+    }
+  ],
+  "process": {
+    "startNodeId": "place-ring-stand-node",
+    "nodes": [
+      {
+        "id": "place-ring-stand-node",
+        "type": "action",
+        "title": "Set up the stand",
+        "description": "Place the ring stand and burette clamp on the workbench.",
+        "actionId": "place-ring-stand",
+        "layout": {
+          "x": 40,
+          "y": 60,
+          "lane": "setup",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "place-ring-stand-complete",
+            "type": "actionEvidence",
+            "label": "place-ring-stand completed.",
+            "actionId": "place-ring-stand"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Set up the stand checkpoint passed.",
+          "retry": "Place the ring stand and burette clamp on the workbench."
+        }
+      },
+      {
+        "id": "mount-burette-node",
+        "type": "action",
+        "title": "Mount the burette",
+        "description": "Seat the burette in the clamp so the stopcock is reachable and the tip is clear.",
+        "actionId": "mount-burette",
+        "layout": {
+          "x": 340,
+          "y": 60,
+          "lane": "setup",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "mount-burette-complete",
+            "type": "actionEvidence",
+            "label": "mount-burette completed.",
+            "actionId": "mount-burette"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Mount the burette checkpoint passed.",
+          "retry": "Seat the burette in the clamp so the stopcock is reachable and the tip is clear."
+        }
+      },
+      {
+        "id": "seat-burette-funnel-node",
+        "type": "action",
+        "title": "Seat the filling funnel",
+        "description": "Place the glass filling funnel upright in the top of the mounted burette before conditioning.",
+        "actionId": "seat-burette-funnel",
+        "layout": {
+          "x": 640,
+          "y": 60,
+          "lane": "setup",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "burette-funnel-seated",
+            "type": "actionEvidence",
+            "label": "Filling funnel seated in the burette.",
+            "actionId": "seat-burette-funnel"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Filling funnel placement checkpoint passed.",
+          "retry": "Snap the glass funnel into the highlighted opening at the top of the burette."
+        }
+      },
+      {
+        "id": "condition-burette-node",
+        "type": "action",
+        "title": "Condition the burette",
+        "description": "Rinse the burette through the seated funnel with small portions of the titrant and discard them to waste.",
+        "actionId": "condition-burette",
+        "layout": {
+          "x": 940,
+          "y": 60,
+          "lane": "setup",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "condition-burette-complete",
+            "type": "actionEvidence",
+            "label": "condition-burette completed.",
+            "actionId": "condition-burette"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Condition the burette checkpoint passed.",
+          "retry": "Keep the funnel seated while rinsing the burette with small portions of titrant and discarding them to waste."
+        }
+      },
+      {
+        "id": "fill-burette-node",
+        "type": "action",
+        "title": "Fill the burette",
+        "description": "Pour the titrant through the seated funnel into the conditioned burette and clear the tip.",
+        "actionId": "fill-burette",
+        "layout": {
+          "x": 40,
+          "y": 260,
+          "lane": "setup",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "fill-burette-complete",
+            "type": "actionEvidence",
+            "label": "fill-burette completed.",
+            "actionId": "fill-burette"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Fill the burette checkpoint passed.",
+          "retry": "Seat the filling funnel, then pour the titrant through it into the conditioned burette."
+        }
+      },
+      {
+        "id": "remove-burette-funnel-node",
+        "type": "action",
+        "title": "Remove the filling funnel",
+        "description": "Remove the filling funnel and place it on the workbench before reading the burette.",
+        "actionId": "remove-burette-funnel",
+        "layout": {
+          "x": 340,
+          "y": 260,
+          "lane": "setup",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "burette-funnel-removed",
+            "type": "actionEvidence",
+            "label": "Filling funnel removed and placed on the workbench.",
+            "actionId": "remove-burette-funnel"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Filling funnel removal checkpoint passed.",
+          "retry": "Remove the funnel from the burette and place it on the workbench."
+        }
+      },
+      {
+        "id": "read-initial-burette-node",
+        "type": "observation",
+        "title": "Read the initial level",
+        "description": "Read the meniscus on the filled burette. Reading and recording are separate steps.",
+        "actionId": "read-initial-burette",
+        "layout": {
+          "x": 640,
+          "y": 260,
+          "lane": "check",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "initial-burette-read",
+            "type": "measurementRecorded",
+            "label": "Initial burette level read.",
+            "measurementId": "burette-initial-volume"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Read the initial level checkpoint passed.",
+          "retry": "Read the meniscus on the filled burette. Reading and recording are separate steps."
+        }
+      },
+      {
+        "id": "record-initial-burette-node",
+        "type": "observation",
+        "title": "Record the initial reading",
+        "description": "Record the value you read from the burette scale.",
+        "actionId": "record-initial-burette",
+        "layout": {
+          "x": 940,
+          "y": 260,
+          "lane": "check",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "initial-burette-notebook",
+            "type": "notebookEntry",
+            "label": "Initial burette reading entered in the notebook.",
+            "notebookTag": "burette-initial-volume"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Record the initial reading checkpoint passed.",
+          "retry": "Record the value you read from the burette scale."
+        }
+      },
+      {
+        "id": "measure-acid-node",
+        "type": "action",
+        "title": "Measure the aliquot",
+        "description": "Measure the acid aliquot into the graduated cylinder.",
+        "actionId": "measure-acid",
+        "layout": {
+          "x": 40,
+          "y": 460,
+          "lane": "procedure",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "acid-aliquot-recorded",
+            "type": "measurementRecorded",
+            "label": "Acid aliquot volume recorded.",
+            "measurementId": "acid-aliquot-volume"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Measure the aliquot checkpoint passed.",
+          "retry": "Measure the acid aliquot into the graduated cylinder."
+        }
+      },
+      {
+        "id": "transfer-acid-flask-node",
+        "type": "action",
+        "title": "Charge the receiver",
+        "description": "Transfer the measured acid into the Erlenmeyer flask.",
+        "actionId": "transfer-acid-flask",
+        "layout": {
+          "x": 340,
+          "y": 460,
+          "lane": "procedure",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "transfer-acid-flask-complete",
+            "type": "actionEvidence",
+            "label": "transfer-acid-flask completed.",
+            "actionId": "transfer-acid-flask"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Charge the receiver checkpoint passed.",
+          "retry": "Transfer the measured acid into the Erlenmeyer flask."
+        }
+      },
+      {
+        "id": "add-indicator-node",
+        "type": "action",
+        "title": "Add indicator",
+        "description": "Add a few drops of the approved indicator to the analyte.",
+        "actionId": "add-indicator",
+        "layout": {
+          "x": 640,
+          "y": 460,
+          "lane": "procedure",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "add-indicator-complete",
+            "type": "actionEvidence",
+            "label": "add-indicator completed.",
+            "actionId": "add-indicator"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Add indicator checkpoint passed.",
+          "retry": "Add a few drops of the approved indicator to the analyte."
+        }
+      },
+      {
+        "id": "position-flask-under-burette-node",
+        "type": "action",
+        "title": "Place the flask under the burette",
+        "description": "Snap the Erlenmeyer flask into the receiving position beneath the mounted burette tip.",
+        "actionId": "position-flask-under-burette",
+        "layout": {
+          "x": 640,
+          "y": 460,
+          "lane": "procedure",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "receiver-positioned",
+            "type": "actionEvidence",
+            "label": "Receiving flask positioned beneath the burette.",
+            "actionId": "position-flask-under-burette"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Receiving flask placement checkpoint passed.",
+          "retry": "Snap the Erlenmeyer flask into the receiving position beneath the mounted burette tip."
+        }
+      },
+      {
+        "id": "deliver-titrant-node",
+        "type": "action",
+        "title": "Deliver titrant",
+        "description": "Open the stopcock one drop at a time, using smaller additions as the colour begins to persist, then accept the endpoint.",
+        "actionId": "deliver-titrant",
+        "layout": {
+          "x": 940,
+          "y": 460,
+          "lane": "procedure",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "endpoint-accepted",
+            "type": "statePath",
+            "label": "Endpoint accepted.",
+            "path": "dropDispenses.deliver-titrant.accepted",
+            "equals": true
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Deliver titrant checkpoint passed.",
+          "retry": "Open the stopcock one drop at a time, using smaller additions as the colour begins to persist, then accept the endpoint."
+        }
+      },
+      {
+        "id": "record-final-burette-node",
+        "type": "observation",
+        "title": "Record the final reading",
+        "description": "Record the final burette reading produced by the accepted endpoint.",
+        "actionId": "record-final-burette",
+        "layout": {
+          "x": 40,
+          "y": 660,
+          "lane": "check",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "final-burette-notebook",
+            "type": "notebookEntry",
+            "label": "Final burette reading entered in the notebook.",
+            "notebookTag": "burette-final-volume"
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Record the final reading checkpoint passed.",
+          "retry": "Record the final burette reading produced by the accepted endpoint."
+        }
+      },
+      {
+        "id": "calculate-acid-molarity-node",
+        "type": "calculation",
+        "title": "Calculate molarity",
+        "description": "Calculate the acid molarity from your own recorded evidence.",
+        "actionId": "calculate-acid-molarity",
+        "layout": {
+          "x": 340,
+          "y": 660,
+          "lane": "analysis",
+          "display": "expanded"
+        },
+        "config": {},
+        "validation": [
+          {
+            "id": "acid-molarity-valid",
+            "type": "calculationWithinTolerance",
+            "label": "Acid molarity is within tolerance.",
+            "calculationId": "acid-molarity",
+            "tolerance": 0.0005
+          }
+        ],
+        "hints": [],
+        "feedback": {
+          "success": "Calculate molarity checkpoint passed.",
+          "retry": "Calculate the acid molarity from your own recorded evidence."
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "place-ring-stand-node",
+        "to": "mount-burette-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "mount-burette-node",
+        "to": "seat-burette-funnel-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "seat-burette-funnel-node",
+        "to": "condition-burette-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "condition-burette-node",
+        "to": "fill-burette-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "fill-burette-node",
+        "to": "remove-burette-funnel-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "remove-burette-funnel-node",
+        "to": "read-initial-burette-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "read-initial-burette-node",
+        "to": "record-initial-burette-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "record-initial-burette-node",
+        "to": "measure-acid-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "measure-acid-node",
+        "to": "transfer-acid-flask-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "transfer-acid-flask-node",
+        "to": "add-indicator-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "add-indicator-node",
+        "to": "position-flask-under-burette-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "position-flask-under-burette-node",
+        "to": "deliver-titrant-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "deliver-titrant-node",
+        "to": "record-final-burette-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "record-final-burette-node",
+        "to": "calculate-acid-molarity-node",
+        "label": "Next",
+        "condition": {
+          "type": "validationPassed"
+        }
+      },
+      {
+        "from": "calculate-acid-molarity-node",
+        "to": "calculate-acid-molarity-node",
+        "label": "Retry calculation",
+        "condition": {
+          "type": "retry"
+        }
+      }
+    ]
+  },
+  "successCriteria": [
+    {
+      "id": "endpoint-accepted",
+      "type": "statePath",
+      "label": "A persistent indicator endpoint was accepted.",
+      "path": "dropDispenses.deliver-titrant.accepted",
+      "equals": true
+    },
+    {
+      "id": "molarity-calculated",
+      "type": "calculationWithinTolerance",
+      "label": "Analyte molarity was calculated within tolerance.",
+      "calculationId": "acid-molarity",
+      "tolerance": 0.0005
+    }
+  ],
+  "commonMistakes": [
+    {
+      "id": "unconditioned-burette",
+      "when": "the burette is filled straight after a water rinse",
+      "message": "Residual water dilutes the titrant and biases every trial low.",
+      "recovery": "Condition with the titrant itself before filling."
+    },
+    {
+      "id": "assumed-zero-start",
+      "when": "the titration is started without reading the burette",
+      "message": "A burette does not start at 0.00 mL, and the delivered volume is a difference of two readings.",
+      "recovery": "Read and record the initial level before opening the stopcock."
+    },
+    {
+      "id": "rewound-overshoot",
+      "when": "an overshot endpoint is treated as recoverable",
+      "message": "Titrant already delivered cannot be taken back.",
+      "recovery": "Record the overshoot and repeat the trial with a fresh aliquot."
+    }
+  ],
+  "resetBehavior": "resetTechnique",
+  "metadata": {
+    "version": "2.1.2",
+    "author": "Lab Studio",
+    "updatedAt": "2026-08-08T00:00:00.000Z",
+    "tags": [
+      "technique",
+      "chemistry",
+      "titration",
+      "acid-base",
+      "burette-conditioning",
+      "filling-funnel",
+      "instrument-read"
+    ]
+  },
+  "titrationModels": [
+    {
+      "id": "unknown-acid-naoh",
+      "type": "acidBase",
+      "analyte": {
+        "formula": "CH3COOH",
+        "role": "acid",
+        "strength": "weak",
+        "equilibriumConstant": 0.00001753,
+        "equilibriumConstantSource": "https://nvlpubs.nist.gov/nistpubs/jres/100/5/j15wu.pdf"
+      },
+      "titrant": {
+        "formula": "NaOH",
+        "role": "base",
+        "strength": "strong"
+      },
+      "analyteMolarityM": 0.0992,
+      "analyteVolumeMl": 25,
+      "titrantMolarityM": 0.1,
+      "stoichiometricRatio": {
+        "analyte": 1,
+        "titrant": 1
+      },
+      "dropVolumeMl": 0.05,
+      "endpointOffsetDrops": 0,
+      "maxExtraDrops": 5,
+      "temperatureC": 25,
+      "waterIonProduct": 1e-14,
+      "phPrecision": 2
+    }
+  ]
+}
